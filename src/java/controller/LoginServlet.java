@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
         Connection conn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = ConexionDB.obtenerConexionUsuarios(); // Usar el método correcto para la conexión
+            conn = ConexionDB.obtenerConexion(); // Usar el método obtenerConexion()
 
             // 3. Consultar la base de datos para verificar las credenciales
             String sql = "SELECT * FROM usuarios WHERE usuario = ?";
@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                         }
                     } else {
                         // Usuario no encontrado
-                        response.sendRedirect("index.jsp?error=credenciales_incorrectas");
+                        response.sendRedirect("index.jsp?error=usuario_no_encontrado"); 
                     }
                 }
             }
@@ -107,7 +107,3 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
-
-
-
-

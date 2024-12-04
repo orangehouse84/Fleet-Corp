@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -16,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.ConexionDB; 
 
 @WebServlet("/RegistroServlet")
 public class RegistroServlet extends HttpServlet {
@@ -25,13 +25,15 @@ public class RegistroServlet extends HttpServlet {
 
         String usuario = request.getParameter("usuario");
         String contrasena = request.getParameter("contrasena");
+        
         // 1. Obtener el idRol del formulario
-        int idRol = Integer.parseInt(request.getParameter("idRol")); 
+        String rol = request.getParameter("idRol"); 
+        int idRol = (rol != null && rol.equals("1")) ? 1 : 2; // Asignar 1 para administrador, 2 para usuario
 
         // 1. Validar los datos (puedes agregar más validaciones)
         if (usuario == null || usuario.isEmpty() || contrasena == null || contrasena.isEmpty()) {
             // Manejar error: campos vacíos
-            response.sendRedirect("registro.jsp?error=campos_vacios");  
+            response.sendRedirect("registro.jsp?error=campos_vacios");   
             return; 
         }
 
@@ -39,16 +41,15 @@ public class RegistroServlet extends HttpServlet {
         Connection conn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/usuariosdb", "root", "");
+            // Use the correct method to get the connection
+            conn = ConexionDB.obtenerConexion();
 
             // 3. Hashear la contraseña
             String contrasenaHasheada = hashearContrasena(contrasena);
-            
-            System.out.println("Contraseña hasheada: " + contrasenaHasheada); //remover este print despues de verificar que funciona el hash!!!!!!!!!!!!!!!!!
 
             // 4. Insertar los datos en la base de datos (usando PreparedStatement)
             // Incluir el idRol en la consulta SQL
-            String sql = "INSERT INTO usuarios (usuario, password, idRol) VALUES (?, ?, ?)"; 
+            String sql = "INSERT INTO usuarios (usuario, password, idRol) VALUES (?, ?, ?)";  
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, usuario);
                 stmt.setString(2, contrasenaHasheada);
@@ -66,7 +67,7 @@ public class RegistroServlet extends HttpServlet {
 
         } catch (ClassNotFoundException | SQLException e) {
             // Manejar errores de conexión o inserción
-            response.sendRedirect("registro.jsp?error=error_db"); 
+            response.sendRedirect("registro.jsp?error=error_db");  
         } finally {
             // Cerrar la conexión
             if (conn != null) {
@@ -97,7 +98,3 @@ public class RegistroServlet extends HttpServlet {
         }
     }
 }
-
-        
-
-
