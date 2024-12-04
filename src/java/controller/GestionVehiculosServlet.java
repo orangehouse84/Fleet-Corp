@@ -12,15 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.ConexionDB;
-import modelo.vehiculo; 
+import modelo.vehiculo; // Asegúrate de importar la clase Vehiculo con "V" mayúscula
 
 @WebServlet(name = "GestionVehiculosServlet", urlPatterns = {"/gestion_vehiculos.jsp"})
 public class GestionVehiculosServlet extends HttpServlet {
@@ -29,18 +27,17 @@ public class GestionVehiculosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Connection conn1 = null; // Conexión a usuariosdb
-        Connection conn2 = null; // Conexión a vehiculosdb
+        Connection conn = null; // Conexión a la base de datos
         try {
-            // 1. Conectar a las bases de datos
+            // 1. Conectar a la base de datos
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn1 = ConexionDB.obtenerConexionUsuarios();
-            conn2 = ConexionDB.obtenerConexionVehiculos();
+            // Obtener la conexión usando ConexionDB.obtenerConexion()
+            conn = ConexionDB.obtenerConexion(); 
 
             // 2. Obtener la lista de vehículos
             List<vehiculo> listaVehiculos = new ArrayList<>();
             String sql = "SELECT * FROM vehiculos";
-            try (PreparedStatement stmt = conn2.prepareStatement(sql); // Usar conn2 para vehiculosdb
+            try (PreparedStatement stmt = conn.prepareStatement(sql);
                  ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
@@ -59,26 +56,18 @@ public class GestionVehiculosServlet extends HttpServlet {
             request.getRequestDispatcher("gestion_vehiculos.jsp").forward(request, response);
 
         } catch (SQLException | ClassNotFoundException e) {
-            // ...
-        }
-        // ...
-         finally {
-            // Cerrar las conexiones en un bloque finally
-            try {
-                if (conn1 != null) {
-                    conn1.close();
+            // Manejar errores de conexión o consulta
+            e.printStackTrace();
+            // Puedes redirigir a una página de error o mostrar un mensaje de error
+        } finally {
+            // Cerrar la conexión en un bloque finally
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                if (conn2 != null) {
-                    conn2.close(); // Cerrar conn2 aquí
-                }
-            } catch (SQLException e) {
-                // ...
             }
         }
     }
 }
-
-
-
-
-

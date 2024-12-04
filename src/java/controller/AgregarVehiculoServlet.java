@@ -17,9 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.ConexionDB;
-import modelo.vehiculo;
-
-
 
 @WebServlet(name = "AgregarVehiculoServlet", urlPatterns = {"/AgregarVehiculoServlet"})
 public class AgregarVehiculoServlet extends HttpServlet {
@@ -57,9 +54,9 @@ public class AgregarVehiculoServlet extends HttpServlet {
 
         // 3. Conectar a la base de datos
         Connection conn = null;
-            try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = ConexionDB.obtenerConexionVehiculos(); // Usar el método de ConexionDB
+        try {
+            // Obtener la conexión usando ConexionDB.obtenerConexion()
+            conn = ConexionDB.obtenerConexion(); 
 
             // Verificar si la matrícula ya existe
             String sql = "SELECT COUNT(*) FROM vehiculos WHERE matricula = ?";
@@ -93,8 +90,6 @@ public class AgregarVehiculoServlet extends HttpServlet {
         } catch (SQLException e) {
             // Manejar errores de conexión o inserción
             response.sendRedirect("agregar_vehiculo.jsp?error=error_db");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AgregarVehiculoServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             // Cerrar la conexión
             if (conn != null) {
@@ -110,6 +105,8 @@ public class AgregarVehiculoServlet extends HttpServlet {
 
     // ... (otros métodos del servlet) ...
 }
+
+
 
 
 
