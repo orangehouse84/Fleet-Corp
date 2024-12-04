@@ -24,7 +24,6 @@
     <%-- Mostrar contenido solo para usuarios --%>
     <c:if test="${sessionScope.idRol == 2}">
         <p>Contenido exclusivo para usuarios.</p>
-        <%-- Aquí puedes agregar enlaces o contenido específico para usuarios --%>
         <a href="historial_solicitudes.jsp">Ver historial de solicitudes</a>
     </c:if>
 
@@ -41,6 +40,7 @@
 
 </body>
 </html>
+
 
 
 

@@ -17,17 +17,17 @@
 
         <%-- Mostrar mensajes de error --%>
         <% if (request.getParameter("error") != null) { %>
-        <div class="error">${request.getParameter("error")}</div> 
+            <div class="error">${request.getParameter("error")}</div> 
         <% } %>
 
         <form action="RegistroServlet" method="post">  
             <div>
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario">
+                <input type="text" id="usuario" name="usuario" required>
             </div>
             <div>
                 <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="contrasena">
+                <input type="password" id="contrasena" name="contrasena" required>
             </div>
             <div>
                 <label for="idRol">Rol:</label>
@@ -42,3 +42,4 @@
     </div>
 </body>
 </html>
+
