@@ -26,9 +26,15 @@
             <button type="submit">Iniciar sesión</button>
             <a href="registro.jsp">Registrarse</a> 
         </form>
+
+        <%-- Mostrar mensajes de error (si los hay) --%>
+        <% if (request.getParameter("error") != null) { %>
+            <div class="error">${request.getParameter("error")}</div> 
+        <% } %>
     </div>
 </body>
 </html>
+
 
 
 
