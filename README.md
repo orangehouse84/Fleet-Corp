@@ -31,7 +31,7 @@ Este proyecto implementa un sistema de gestión de préstamo de vehículos corpo
 <br>
 <a href="https://github.com/orangehouse84/Fleet-Corp/wiki/Configuraci%C3%B3n">Configuración</a>
 <br>
-<a href="https://github.com/orangehouse84/Fleet-Corp/wiki/Configuraci%C3%B3n">Configuración</a>
+<a href="https://github.com/orangehouse84/Fleet-Corp/wiki/Manual-de-Uso">Manual de Uso</a>
 <br>
 
 
