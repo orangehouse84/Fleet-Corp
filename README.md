@@ -22,7 +22,8 @@ Este proyecto implementa un sistema de gestión de préstamo de vehículos corpo
 *   JavaScript
 *   JSTL
 
-##Tabla de Contenidos
+## Tabla de contenidos
+<br>
 <a href="https://github.com/orangehouse84/Fleet-Corp/wiki/Arquitectura-%E2%80%90-Modelo%E2%80%90Vista%E2%80%90Controlador-(MVC)">Arquitectura</a>
 <br>
 <a href="https://github.com/orangehouse84/Fleet-Corp/wiki/Requerimientos">Requerimientos</a>
