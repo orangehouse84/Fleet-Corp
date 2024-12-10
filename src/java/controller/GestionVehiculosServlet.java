@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.ConexionDB;
-import modelo.vehiculo; // Asegúrate de importar la clase Vehiculo con "V" mayúscula
+import modelo.vehiculo; 
 
 @WebServlet(name = "GestionVehiculosServlet", urlPatterns = {"/gestion_vehiculos.jsp"})
 public class GestionVehiculosServlet extends HttpServlet {
@@ -31,7 +31,7 @@ public class GestionVehiculosServlet extends HttpServlet {
         try {
             // 1. Conectar a la base de datos
             Class.forName("com.mysql.cj.jdbc.Driver");
-            // Obtener la conexión usando ConexionDB.obtenerConexion()
+            
             conn = ConexionDB.obtenerConexion(); 
 
             // 2. Obtener la lista de vehículos
@@ -49,18 +49,18 @@ public class GestionVehiculosServlet extends HttpServlet {
                 }
             }
 
-            // 3. Guardar la lista en el request
+          
             request.setAttribute("listaVehiculos", listaVehiculos);
 
-            // 4. Redirigir a gestion_vehiculos.jsp
+           
             request.getRequestDispatcher("gestion_vehiculos.jsp").forward(request, response);
 
         } catch (SQLException | ClassNotFoundException e) {
             // Manejar errores de conexión o consulta
             e.printStackTrace();
-            // Puedes redirigir a una página de error o mostrar un mensaje de error
+            
         } finally {
-            // Cerrar la conexión en un bloque finally
+            // Cerrar la conexión 
             if (conn != null) {
                 try {
                     conn.close();

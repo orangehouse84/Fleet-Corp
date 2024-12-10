@@ -28,29 +28,29 @@ public class DisponibilidadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Obtener las fechas del formulario
+        // Obtener las fechas del formulario
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Crear un formateador de fechas
         LocalDate fechaInicio = LocalDate.parse(request.getParameter("fechaInicio"), formatter);
         LocalDate fechaFin = LocalDate.parse(request.getParameter("fechaFin"), formatter);
 
-        // 2. Conectar a la base de datos
+        // Conectar a la base de datos
         Connection conn = null;
         try {
             conn = ConexionDB.obtenerConexion();
 
-            // 3. Obtener la lista de vehículos disponibles
+            // Obtener la lista de vehículos disponibles
             List<vehiculo> listaVehiculosDisponibles = obtenerVehiculosDisponibles(conn, fechaInicio, fechaFin);
 
-            // 4. Guardar la lista en el request
+            // Guardar la lista en el request
             request.setAttribute("listaVehiculosDisponibles", listaVehiculosDisponibles);
 
-            // 5. Redirigir a disponibilidad.jsp
+            // Redirigir a disponibilidad.jsp
             request.getRequestDispatcher("disponibilidad.jsp").forward(request, response);
 
         } catch (SQLException e) {
-            // Manejar errores de conexión o consulta
+            // Manejar errores de conexión
             e.printStackTrace();
-            // Puedes redirigir a una página de error o mostrar un mensaje de error
+            
         } finally {
             // Cerrar la conexión
             if (conn != null) {
